@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khóa học Data Analytics for SMEs & Marketers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #fdfbf7; /* Warm neutral background */
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .step-active {
+            border-color: #d97706;
+            color: #d97706;
+            background-color: #fffbeb;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .nav-link.active {
+            color: #d97706;
+            border-bottom: 2px solid #d97706;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Chosen Palette: Warm Neutrals & Sunset Amber
+         Background: #fdfbf7 (Cream)
+         Primary: #d97706 (Amber 600)
+         Secondary: #475569 (Slate 600)
+         Accent: #fef3c7 (Amber 100)
+    -->
+
+    <!-- Application Structure Plan:
+         1. Hero Section: Thu hút bằng giá trị cốt lõi (Tư duy + AI).
+         2. Pain Points & Philosophy: Chạm vào nỗi đau và đưa ra cam kết chân thực (Sự khác biệt).
+         3. Interactive Roadmap: Sử dụng Tabs để trình bày 3 buổi học chi tiết.
+         4. Skill Mapping: Biểu đồ Radar (Chart.js) so sánh năng lực trước và sau khóa học.
+         5. Tool Ecosystem: Lưới các công cụ trực quan.
+         6. Project & Outcome: Những gì học viên sẽ "cầm tay mang về".
+         7. Full Syllabus: Bảng chi tiết cho những người muốn tìm hiểu sâu.
+    -->
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-card shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="font-bold text-xl text-amber-700">DataAI <span class="text-slate-400 font-light">for SMEs</span></div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#overview" class="nav-link hover:text-amber-600 transition">Tổng quan</a>
+                <a href="#curriculum" class="nav-link hover:text-amber-600 transition">Lộ trình</a>
+                <a href="#tools" class="nav-link hover:text-amber-600 transition">Công cụ</a>
+                <a href="#outcome" class="nav-link hover:text-amber-600 transition">Kết quả</a>
+            </div>
+            <a href="#register" class="bg-amber-600 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-amber-700 transition">Đăng ký ngay</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="overview" class="pt-32 pb-20 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <span class="inline-block px-4 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold mb-6 tracking-widest uppercase">Kỷ nguyên kinh doanh dựa trên dữ liệu</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
+                Biến Dữ Liệu & AI Thành <br> <span class="text-amber-600">Quyết Định Kinh Doanh</span>
+            </h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Khóa học chuyên sâu 3 buổi dành cho SMEs & Marketers. Không dạy lý thuyết suông, không "thần thánh hóa" AI – Chỉ tập trung giải quyết dòng tiền thực tế.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="#curriculum" class="bg-slate-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-slate-800 transition shadow-lg">Xem lộ trình 3 buổi</a>
+                <div class="flex items-center justify-center space-x-2 text-slate-500 text-sm italic">
+                    <i class="fa-solid fa-check-circle text-green-500"></i>
+                    <span>Thực chiến 100%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy & Comparison Section -->
+    <section class="py-16 bg-white px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6">Tại sao khóa học này <span class="text-amber-600 underline decoration-amber-200">Khác biệt?</span></h2>
+                    <p class="text-slate-600 mb-6 italic border-l-4 border-amber-500 pl-4">
+                        "Thị trường đang tràn ngập các lời hứa làm chủ AI trong vài giờ. Chúng tôi hoàn toàn không hứa hẹn điều vô lý đó."
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center text-amber-600">
+                                <i class="fa-solid fa-money-bill-trend-up"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Dữ liệu nằm ở dòng tiền</h4>
+                                <p class="text-sm text-slate-500">Chúng tôi dạy bạn đọc lợi nhuận ròng, không phải đếm lượt Likes hay Shares ảo.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center text-amber-600">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">AI là trợ lý, Tư duy là nhạc trưởng</h4>
+                                <p class="text-sm text-slate-500">AI chỉ mạnh khi bạn đặt đúng câu hỏi. Chúng tôi huấn luyện Tư duy Data-driven trước khi gõ Prompt.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100">
+                    <h4 class="text-center font-bold mb-4 text-slate-500 uppercase tracking-tighter text-sm">Nâng cấp năng lực cá nhân</h4>
+                    <div class="chart-container">
+                        <canvas id="skillChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points Accordion -->
+    <section class="py-20 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Bạn có đang gặp những "Nỗi Đau" này?</h2>
+            <div class="space-y-4">
+                <button onclick="toggleAccordion(1)" class="w-full flex items-center justify-between p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition text-left">
+                    <span class="font-semibold text-slate-700">Chạy quảng cáo nhiều nhưng không biết lãi/lỗ thực sự ở đâu?</span>
+                    <i id="icon-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                </button>
+                <div id="content-1" class="hidden p-6 pt-0 text-slate-500 text-sm leading-relaxed">
+                    Nhiều chủ doanh nghiệp bị lừa dối bởi các chỉ số CTR, Reach nhưng cuối tháng tài khoản vẫn hụt. Chúng tôi giúp bạn bóc tách dữ liệu để thấy điểm hòa vốn thực tế.
+                </div>
+
+                <button onclick="toggleAccordion(2)" class="w-full flex items-center justify-between p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition text-left">
+                    <span class="font-semibold text-slate-700">Sở hữu nhiều dữ liệu (Excel, Sales) nhưng bỏ phí?</span>
+                    <i id="icon-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                </button>
+                <div id="content-2" class="hidden p-6 pt-0 text-slate-500 text-sm leading-relaxed">
+                    Bạn có danh sách khách hàng, file bán hàng nhưng chỉ dùng để... lưu trữ. Chúng tôi hướng dẫn cách xâu chuỗi chúng thành insight kinh doanh.
+                </div>
+
+                <button onclick="toggleAccordion(3)" class="w-full flex items-center justify-between p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition text-left">
+                    <span class="font-semibold text-slate-700">Dùng AI nhưng kết quả chỉ nhận được lý thuyết chung chung?</span>
+                    <i id="icon-3" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                </button>
+                <div id="content-3" class="hidden p-6 pt-0 text-slate-500 text-sm leading-relaxed">
+                    Đó là do Prompt của bạn chưa có ngữ cảnh chuyên gia. Khóa học dạy bộ khung ERA (Expert - Role - Action) để AI trả về giải pháp thực thi.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Curriculum Tabs -->
+    <section id="curriculum" class="py-20 bg-slate-900 text-white px-4 overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Lộ Trình Đào Tạo 3 Buổi</h2>
+                <p class="text-slate-400">Từ tư duy dữ liệu đến quyết định hành động thực tế</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="showTab(1)" id="tab-btn-1" class="px-8 py-3 rounded-full border border-slate-700 hover:border-amber-500 transition font-medium tab-btn active">Buổi 1: Thu thập</button>
+                <button onclick="showTab(2)" id="tab-btn-2" class="px-8 py-3 rounded-full border border-slate-700 hover:border-amber-500 transition font-medium tab-btn">Buổi 2: Khai phá</button>
+                <button onclick="showTab(3)" id="tab-btn-3" class="px-8 py-3 rounded-full border border-slate-700 hover:border-amber-500 transition font-medium tab-btn">Buổi 3: Quyết định</button>
+            </div>
+
+            <!-- Tab 1 -->
+            <div id="tab-1" class="tab-content active bg-slate-800 p-8 md:p-12 rounded-3xl border border-slate-700">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-bold text-amber-500 mb-6 italic">"Đừng đếm số đơn hàng, hãy đếm số tiền chảy vào ngân hàng."</h3>
+                        <p class="text-slate-300 mb-8 leading-relaxed">Buổi 1 tập trung xây dựng tư duy đúng về dữ liệu (Data-driven Mindset) và thiết lập hệ thống thu thập số liệu chi phí thấp (Google Forms, Clarity).</p>
+                        <ul class="space-y-4 text-sm text-slate-400">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-amber-500"></i> Phân biệt Dữ liệu -> Thông tin -> Insight</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-amber-500"></i> Xây dựng Data Map cho chính doanh nghiệp mình</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-amber-500"></i> Minimal Data Toolkit trên Google Sheets</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-700/50 p-6 rounded-2xl">
+                        <div class="text-amber-500 font-bold mb-4 uppercase text-xs tracking-widest">Sản phẩm đầu ra Buổi 1</div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-10 h-16 bg-gradient-to-br from-slate-700 to-slate-800 shadow-lg flex items-center justify-center overflow-hidden hover:scale-105 transition-transform duration-300">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Google_Sheets_2020_Logo.svg/1920px-Google_Sheets_2020_Logo.svg.png" alt="Google Sheets icon" class="w-full h-full object-contain"></div>
+                            <div class="text-lg font-semibold">File Google Sheets cấu trúc chuẩn</div>
+                        </div>
+                        <p class="text-slate-400 text-sm italic">Sẵn sàng để bắt đầu thu thập số liệu kinh doanh sạch và đồng bộ ngay lập tức.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2 -->
+            <div id="tab-2" class="tab-content bg-slate-800 p-8 md:p-12 rounded-3xl border border-slate-700">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-bold text-amber-500 mb-6 italic">"Garbage In, Garbage Out – Làm sạch dữ liệu là ưu tiên số 1."</h3>
+                        <p class="text-slate-300 mb-8 leading-relaxed">Sử dụng AI như một trợ lý thông minh để làm sạch các file Excel "bẩn", xử lý trùng lặp và phân tích phễu Marketing chuyên sâu.</p>
+                        <ul class="space-y-4 text-sm text-slate-400">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-amber-500"></i> Thành thạo khung Prompt ERA (Expert-Role-Action)</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-amber-500"></i> Phân tích Marketing Funnel: Tại sao tương tác cao nhưng đơn thấp?</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-amber-500"></i> Loại bỏ bias và giới hạn của AI trong phân tích</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-700/50 p-6 rounded-2xl">
+                        <div class="text-amber-500 font-bold mb-4 uppercase text-xs tracking-widest">Sản phẩm đầu ra Buổi 2</div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 bg-slate-600 rounded-xl flex items-center justify-center text-2xl">🔍</div>
+                            <div class="text-lg font-semibold">Báo cáo bóc tách Insight từ AI</div>
+                        </div>
+                        <p class="text-slate-400 text-sm italic">File dữ liệu đã được làm sạch hoàn chỉnh và bản phân tích đề xuất tối ưu ngân sách quảng cáo.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3 -->
+            <div id="tab-3" class="tab-content bg-slate-800 p-8 md:p-12 rounded-3xl border border-slate-700">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl font-bold text-amber-500 mb-6 italic">"Framework SODA – Biến con số thành kế hoạch hành động."</h3>
+                        <p class="text-slate-300 mb-8 leading-relaxed">Học cách trình bày dữ liệu (Data Storytelling) và sử dụng AI để mô phỏng các kịch bản kinh doanh Tệ nhất - Khả thi nhất - Tốt nhất.</p>
+                        <ul class="space-y-4 text-sm text-slate-400">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-amber-500"></i> Áp dụng khung SODA: Tình hình -> Quan sát -> Chẩn đoán -> Hành động</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-amber-500"></i> Tự động hóa tạo Slide thuyết trình với Gamma/Canva AI</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-amber-500"></i> Live Pitching: Bảo vệ quyết định trước "Hội đồng quản trị"</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-700/50 p-6 rounded-2xl">
+                        <div class="text-amber-500 font-bold mb-4 uppercase text-xs tracking-widest">Sản phẩm đầu ra Buổi 3</div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 bg-slate-600 rounded-xl flex items-center justify-center text-2xl">🎯</div>
+                            <div class="text-lg font-semibold">Bộ Slide Đề Xuất Chiến Lược</div>
+                        </div>
+                        <p class="text-slate-400 text-sm italic">Kỹ năng trình bày tự tin và bộ 20 Prompt chuyên dụng để áp dụng ngay vào doanh nghiệp sau khóa học.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tool Ecosystem -->
+    <section id="tools" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-16">Hệ Sinh Thái Công Cụ Thực Chiến</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div
+                    class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:-translate-y-2 transition duration-300 flex flex-col items-center">
+                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl mb-4">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMGG7QUUGHPwhxIEVAPsrTnrwYsqhvu0iCwFCEsZqLwQ"
+                            alt="icon" class="w-6 h-6">
+                    </div>
+                    <h5 class="font-bold text-slate-800 text-center">GPT AI</h5>
+                    <p class="text-xs text-slate-500 text-justify mt-1 px-1">Phân tích file Excel/CSV &amp; viết báo cáo chuyên sâu.</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:-translate-y-2 transition duration-300 flex flex-col items-center">
+                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl mb-4"><img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBtytFZ_ZKBE2vF_C0Nr3OxIns8FiJSW-Q79Sw-yDQNw"
+                            alt="icon" class="w-6 h-6"></div>
+                    <h5 class="font-bold text-slate-800 text-center">Claude AI</h5>
+                    <p class="text-xs text-slate-500 text-justify mt-1 px-1">Đọc tài liệu dài, phân tích ngữ cảnh phức tạp.</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:-translate-y-2 transition duration-300 flex flex-col items-center">
+                    <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl mb-4"><img
+                            src="https://julius.ai/favicon.ico" alt="icon" class="w-6 h-6"></div>
+                    <h5 class="font-bold text-slate-800 text-center">Julius AI</h5>
+                    <p class="text-xs text-slate-500 text-justify mt-1 px-1">Chuyên gia vẽ biểu đồ & thống kê tự động từ data.</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:-translate-y-2 transition duration-300 flex flex-col items-center">
+                    <div class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-2xl mb-4"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkFkrcNH1YjPxIRx8OZo_fOywMJ63cfMtvDgGviWa03Q" alt="icon" class="w-6 h-6"></div>
+                    <h5 class="font-bold text-slate-800 text-center">Gamma</h5>
+                    <p class="text-xs text-slate-500 text-justify mt-1 px-1">Biến nội dung báo cáo thành Slide trong vài giây.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Syllabus Table -->
+    <section class="py-20 bg-white px-4">
+        <div class="max-w-6xl mx-auto overflow-hidden rounded-3xl border border-slate-100 shadow-xl">
+            <div class="bg-slate-900 p-8">
+                <h3 class="text-2xl font-bold text-white">Chi tiết Syllabus Chương Trình</h3>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead>
+                        <tr class="bg-slate-50 text-slate-500 font-semibold uppercase text-xs">
+                            <th class="px-6 py-4">Phần</th>
+                            <th class="px-6 py-4">Chủ đề & Nội dung cốt lõi</th>
+                            <th class="px-6 py-4">Hoạt động thực hành</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr>
+                            <td class="px-6 py-6 font-bold text-amber-600">Buổi 1</td>
+                            <td class="px-6 py-6">
+                                <span class="font-semibold block text-slate-800 mb-1">Xây dựng nền tảng Data-driven</span>
+                                Phân biệt Data/Insight. Case study hiệu quả content dựa trên Profit thực tế. Thiết lập "trạm thu thập" Microsoft Clarity & Google Forms.
+                            </td>
+                            <td class="px-6 py-6 text-slate-500 italic">Lập bản đồ Data Map & Thiết kế Google Sheets cấu trúc chuẩn cho doanh nghiệp.</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-6 font-bold text-amber-600">Buổi 2</td>
+                            <td class="px-6 py-6">
+                                <span class="font-semibold block text-slate-800 mb-1">AI-Powered Analysis</span>
+                                Khung Prompt ERA (Expert-Role-Action). Làm sạch dữ liệu tự động. Phân tích phễu marketing Impression -> Click -> Conversion.
+                            </td>
+                            <td class="px-6 py-6 text-slate-500 italic">Xử lý dataset "bẩn" bằng ChatGPT. Phân tích nguyên nhân "Tương tác cao đơn thấp".</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-6 font-bold text-amber-600">Buổi 3</td>
+                            <td class="px-6 py-6">
+                                <span class="font-semibold block text-slate-800 mb-1">Decision Making & Storytelling</span>
+                                Khung SODA (Situation-Observation-Diagnosis-Action). Data Storytelling & Dashboard. Mô phỏng kịch bản kinh doanh.
+                            </td>
+                            <td class="px-6 py-6 text-slate-500 italic">Xây dựng Slide thuyết trình bằng AI & Live Pitching trước lớp.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Outcomes & Gifts -->
+    <section id="outcome" class="py-20 px-4 bg-amber-50">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold mb-8 italic">Bạn sẽ ra về với "Túi đồ nghề" đầy ắp:</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm border border-amber-100">
+                        <i class="fa-solid fa-gift text-amber-600 text-xl"></i>
+                        <span class="font-medium text-slate-700">Bộ 20 Prompt Chuyên Dụng cho Sales & Marketing</span>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm border border-amber-100">
+                        <i class="fa-solid fa-gift text-amber-600 text-xl"></i>
+                        <span class="font-medium text-slate-700">Kế hoạch hành động 30 ngày áp dụng ngay</span>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm border border-amber-100">
+                        <i class="fa-solid fa-gift text-amber-600 text-xl"></i>
+                        <span class="font-medium text-slate-700">Bộ Template Google Sheets chuẩn hóa chuẩn doanh nghiệp</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white p-8 rounded-3xl shadow-xl relative overflow-hidden border border-amber-100">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-amber-100 rounded-full blur-3xl opacity-50"></div>
+                <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-amber-600"></i>
+                    Tiêu chí tốt nghiệp
+                </h3>
+                <p class="text-sm text-slate-500 mb-6 leading-relaxed">Để đảm bảo bạn thực sự làm được việc, sản phẩm cuối khóa được đánh giá dựa trên:</p>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1 uppercase tracking-wider text-slate-400">
+                            <span>Chất lượng Insight</span>
+                            <span>25%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-amber-600 h-full w-[25%]"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1 uppercase tracking-wider text-slate-400">
+                            <span>Ứng dụng Framework & AI</span>
+                            <span>25%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-amber-600 h-full w-[25%]"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs font-bold mb-1 uppercase tracking-wider text-slate-400">
+                            <span>Tính khả thi của đề xuất</span>
+                            <span>20%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-amber-600 h-full w-[20%]"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / CTA -->
+    <footer id="register" class="bg-slate-900 text-white pt-20 pb-10 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-bold mb-8">Sẵn sàng để đưa doanh nghiệp <br> bước vào kỷ nguyên mới?</h2>
+            <p class="text-slate-400 mb-12 max-w-xl mx-auto">Đừng để dữ liệu của bạn nằm yên trong ngăn kéo. Hãy biến chúng thành lợi thế cạnh tranh ngay hôm nay.</p>
+            
+            <a href="mailto:ltrduc1310@gmail.com" class="inline-flex items-center gap-3 bg-amber-600 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-amber-700 transition shadow-2xl hover:scale-105 transform active:scale-95">
+                <i class="fa-solid fa-envelope"></i>
+                Đăng ký qua Email
+            </a>
+
+            <div class="mt-20 pt-10 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-slate-500">
+                <p>&copy; 2026 Data Analytics for SMEs. Designed by Lê Trần Đức.</p>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-amber-500">ltrduc1310@gmail.com</a>
+                    <a href="#" class="hover:text-amber-500">Live Interactive Online</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Skill Mapping Chart ---
+        const ctx = document.getElementById('skillChart').getContext('2d');
+        const skillChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Data Mindset', 'AI Prompting', 'Data Cleaning', 'Insight Discovery', 'Data Storytelling', 'Strategic Action'],
+                datasets: [{
+                    label: 'Trước khóa học',
+                    data: [30, 20, 25, 30, 20, 35],
+                    fill: true,
+                    backgroundColor: 'rgba(71, 85, 105, 0.2)',
+                    borderColor: 'rgb(71, 85, 105)',
+                    pointBackgroundColor: 'rgb(71, 85, 105)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(71, 85, 105)'
+                }, {
+                    label: 'Sau khóa học',
+                    data: [85, 90, 80, 85, 90, 85],
+                    fill: true,
+                    backgroundColor: 'rgba(217, 119, 6, 0.2)',
+                    borderColor: 'rgb(217, 119, 6)',
+                    pointBackgroundColor: 'rgb(217, 119, 6)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgb(217, 119, 6)'
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { display: true },
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        ticks: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, padding: 15, font: { size: 10 } }
+                    }
+                }
+            }
+        });
+
+        // --- Interaction Logic ---
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            
+            // Close all others
+            for(let i=1; i<=3; i++) {
+                if(i !== id) {
+                    document.getElementById(`content-${i}`).classList.add('hidden');
+                    document.getElementById(`icon-${i}`).classList.remove('rotate-180');
+                }
+            }
+
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function showTab(id) {
+            // Content
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(`tab-${id}`).classList.add('active');
+
+            // Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-amber-600', 'border-amber-600', 'text-white');
+                btn.classList.add('border-slate-700', 'text-white');
+            });
+            const activeBtn = document.getElementById(`tab-btn-${id}`);
+            activeBtn.classList.add('bg-amber-600', 'border-amber-600');
+            activeBtn.classList.remove('border-slate-700');
+        }
+
+        // Initialize first tab
+        showTab(1);
+
+        // --- Navigation Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const sections = ['overview', 'curriculum', 'tools', 'outcome'];
+            let current = '';
+
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= 100) current = section;
+                }
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
